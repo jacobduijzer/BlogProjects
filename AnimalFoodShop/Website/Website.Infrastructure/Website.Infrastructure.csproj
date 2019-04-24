@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SharedKernel\SharedKernel.csproj" />
+    <ProjectReference Include="..\Website.Domain\Website.Domain.csproj" />
+    <ProjectReference Include="..\Website.Application\Website.Application.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
+    <PackageReference Include="Refit" Version="4.6.107" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Products\" />
+  </ItemGroup>
+</Project>
