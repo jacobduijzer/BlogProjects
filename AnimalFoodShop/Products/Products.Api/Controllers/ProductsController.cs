@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Products.Application;
+using Products.Domain;
 using Products.DTO;
+using AutoMapper;
 
 namespace Products.Api.Controllers
 {
@@ -12,22 +14,23 @@ namespace Products.Api.Controllers
     public class ProductsController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IMediator mediator) => _mediator = mediator;
+        public ProductsController(IMediator mediator, IMapper mapper)
+        {
+            _mediator = mediator;
+            _mapper = mapper;
+        }
 
         // GET: api/values
         [HttpGet]
-        public async Task<IEnumerable<ProductDto>> Get()
+        public async Task<IEnumerable<ProductDTO>> Get()
         {
             var products = await _mediator
                 .Send(new ProductsQuery())
                 .ConfigureAwait(false);
 
-            return products.Select(x => new ProductDto
-            {
-                Id = x.Id,
-                Name = x.Name
-            }).AsEnumerable();
+            return _mapper.Map<IEnumerable<Product>, IEnumerable<ProductDTO>>(products);
         }
 
         // GET api/values/5

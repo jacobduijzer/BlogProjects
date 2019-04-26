@@ -4,14 +4,8 @@ namespace Website.Domain.Products
 {
     public class Product
     {
-        public readonly Guid Id;
+        public Guid Id { get; set; }
 
-        public readonly string Name;
-
-        public Product(Guid id, string name)
-        {
-            Id = id;
-            Name = name;
-        }
+        public string Name { get; set; }
     }
 }

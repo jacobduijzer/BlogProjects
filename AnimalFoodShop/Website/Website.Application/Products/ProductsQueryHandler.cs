@@ -9,19 +9,19 @@ namespace Website.Application.Products
 {
     public class ProductsQueryHandler : IRequestHandler<ProductsQuery, IEnumerable<Product>>
     {
-        private readonly IProductsService _productsService;
+        private readonly ICachedProductsDecorator _cachedProductsService;
         private readonly ILogger<ProductsQueryHandler> _logger;
 
-        public ProductsQueryHandler(IProductsService productsService, ILogger<ProductsQueryHandler> logger)
+        public ProductsQueryHandler(ICachedProductsDecorator cachedProductsService, ILogger<ProductsQueryHandler> logger)
         {
-            _productsService = productsService;
+            _cachedProductsService = cachedProductsService;
             _logger = logger;
         }
 
         public async Task<IEnumerable<Product>> Handle(ProductsQuery request, CancellationToken cancellationToken)
         {
             _logger.LogDebug($"{nameof(ProductsQueryHandler)}-Handle");
-            return await _productsService.GetAllProducts().ConfigureAwait(false);
+            return await _cachedProductsService.GetAllProducts().ConfigureAwait(false);
         }    
     }
 }

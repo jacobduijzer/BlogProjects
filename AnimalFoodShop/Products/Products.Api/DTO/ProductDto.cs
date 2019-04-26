@@ -1,8 +1,11 @@
 using System;
+using AutoMapper;
+using Products.Domain;
 
 namespace Products.DTO
 {
-    public class ProductDto
+    [AutoMap(typeof(Product))]
+    public class ProductDTO
     {
         public Guid Id { get; set; }
 

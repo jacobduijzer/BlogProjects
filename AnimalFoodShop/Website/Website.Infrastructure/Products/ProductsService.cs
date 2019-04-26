@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,12 +18,7 @@ namespace Website.Infrastructure.Products
             _logger = logger;
         }
 
-        public async Task<IEnumerable<Product>> GetAllProducts()
-        {
-            var products = await _productsApi.GetAllProducts().ConfigureAwait(false);
-
-            return products.Select(product => new Product(product.Id, product.Name));
-        }
-            
+        public async Task<IEnumerable<Product>> GetAllProducts() => 
+            await _productsApi.GetAllProducts().ConfigureAwait(false);
     }
 }

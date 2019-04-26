@@ -37,18 +37,18 @@ namespace Website.Web
                 .AddScoped<IEventDispatcher, EventDispatcher>()
                 .AddScoped<IEventHandler<CustomerLoggedInEvent>, CustomerLoggedInHandler>()
                 .AddScoped<IProductsService, ProductsService>()
+                .AddScoped<ICachedProductsDecorator, CachedProductsService>()
                 .AddMediatR(cfg => cfg.AsScoped(), typeof(PopulateCacheWorker).GetTypeInfo().Assembly)
                 .AddMediatR(cfg => cfg.AsScoped(), typeof(ProductsQueryHandler).GetTypeInfo().Assembly)
                 .AddHostedService<PopulateCacheWorker>()
+                .AddMemoryCache()                
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddRefitClient<IProductsApi>(new RefitSettings())
-                .ConfigureHttpClient(c => c.BaseAddress = new Uri($"{productsEndpoint}/api"));
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri($"{productsEndpoint}"));
         }
-    
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -58,7 +58,6 @@ namespace Website.Web
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Website.Application.Customers;
 using Website.Application.Products;

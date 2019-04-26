@@ -10,6 +10,8 @@ using Products.Application;
 using Products.Domain;
 using Products.Infrastructure;
 using SharedKernel.Repository;
+using AutoMapper;
+using Products.DTO;
 
 namespace Products.Api
 {
@@ -19,13 +21,17 @@ namespace Products.Api
 
         public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services) =>
+        public void ConfigureServices(IServiceCollection services)
+        {
             services
                 .Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Debug)
                 .AddMediatR(cfg => cfg.AsScoped(), typeof(ProductsQueryHandler).GetTypeInfo().Assembly)
                 .AddScoped<IRepository<Product>, FakeProductsRepository>()
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddAutoMapper(cfg => cfg.AddMaps(typeof(ProductDTO)));
+        }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
